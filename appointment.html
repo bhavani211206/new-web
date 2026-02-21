@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City Hospital</title>
+</head>
+
+<header>
+   <center> <h1> King George Hospital</h1></center>
+
+    <nav>
+       <center> <b>Citycare Hospital</b> <br><br>
+        <a href="home.html"><button>Home</button></a> | 
+        <a href="Doctors.html"><button>Doctors</button></a> |
+         <a href="appointment.html"><button>Appointment</button></a> |
+         <a href="services.html"><button>Services</button></a> |
+        <a href="contact.html"><button>Contact</button></a> |</center>
+    </nav>
+</header>
+    <hr>
+
+    <main>
+        <section>
+        <h2>Book Appointment</h2>
+
+    <form>
+
+        <fieldset>
+            <legend>Personal Information</legend>
+
+            Full Name:
+            <input type="text" required placeholder="enter the name"><br><br>
+
+            Email:
+            <input type="email" required placeholder="enter the email"><br><br>
+
+            Phone:
+            <input type="tel" required placeholder="enter the phone number"><br><br>
+
+            Age:
+            <input type="number" min="1" max="120"><br><br>
+
+            Gender:
+            <input type="radio" name="gender"> Male
+            <input type="radio" name="gender"> Female
+            <input type="radio" name="gender"> Other
+        </fieldset>
+
+        <br>
+
+        <fieldset>
+            <legend>Appointment Details</legend>
+
+            Select Department:
+            <select>
+                <option>Cardiology</option>
+                <option>Dermatology</option>
+                <option>nurosurgen</option>
+                <option>cencer</option>
+                <option>ENT</option>
+                <option>DENTIST</option>
+            </select><br><br>
+
+            Select Doctor:
+            <select>
+                <option>Dr. leenali</option>
+                <option>Dr. bigiri</option>
+                <option>Dr. bhavani</option>
+                <option>Dr. ram</option>
+                <option>Dr. Anjali Rao</option>
+                <option>Dr. amrutha</option>
+            </select><br><br>
+
+            Appointment Date:
+            <input type="date"><br><br>
+
+            Appointment Time:
+            <input type="time"><br><br>
+
+            Upload Medical Reports:
+            <input type="file"><br><br>
+
+            Describe Problem:
+            <textarea rows="4" cols="40"></textarea><br><br>
+
+            Urgency Level:
+            <input type="range" min="1" max="10"><br><br>
+
+            Preferred Contact Method:
+            <input type="checkbox"> Email
+            <input type="checkbox"> Phone
+        </fieldset>
+
+        <br>
+        <a href="submit.html">
+            <button type="submit">Book Now<a href="submit.html"></a></button>
+        <input type="reset" value="Reset">
+
+    </form>
+        </section>
+
+<hr>
+
+<!-- AUDIO & VIDEO SECTION -->
+<section id="media">
+    <h2>Health Awareness Media</h2>
+
+    <h3>Hospital Introduction Audio</h3>
+    <audio controls>
+        <source src="mixkit-ambulance-siren-us-1642.wav" type="audio/mpeg">
+    </audio>
+
+    <h3>Hospital Tour Video</h3>
+    <video width="400" controls>
+        <source src="video.mp4" type="video/mp4">
+    </video>
+</section>
+ <ul>
+        <li>
+            if you want doctots details go to the <a href="Doctors.html">doctor page</a>
+        </li>
+        <li>if you want to get a appointment go to <a href="appointment.html">appointment page</a></li>
+        <li>if you want to see services go to <a href="services.html">services page</a></li>
+        <li>if you want to contact us <a href="contact.html">contact page</a></li>
+    </ul>
+ </main>
+    <hr>
+   <center>  <footer>
+        <p>2026@ copy rights king George hospital <br>bhavani@gmail.com</p>
+    </footer></center>
+</body>
+</html>

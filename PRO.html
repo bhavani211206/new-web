@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tall College Student ID Card Generator</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f5f5f5;
+}
+
+h2 { margin-top: 20px; }
+
+form input, form select, form button {
+    margin: 5px;
+    padding: 8px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    width: 180px;
+    background: #004080;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form button:hover { background: #00264d; }
+
+/* TALL ID CARD SIZE */
+.card {
+    width: 3.5in;    /* medium width */
+    height: 5in;     /* large height */
+    padding: 0.25in;
+    border-radius: 0.2in;
+    box-shadow: 0 0.04in 0.1in rgba(0,0,0,0.3);
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+/* Photo */
+.card img {
+    width: 1in;
+    height: 1in;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    margin-bottom: 0.1in;
+}
+
+/* Text */
+.card h2, .card h3, .card p {
+    margin: 0.08in 0;
+}
+
+/* QR Code */
+#qrcode img {
+    width: 0.8in !important;
+    height: 0.8in !important;
+    margin-top: 0.1in;
+}
+
+/* Buttons */
+.action-btn {
+    background: green;
+    margin-top: 10px;
+    width: 200px;
+    padding: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.action-btn:hover { background: darkgreen; }
+
+/* Themes */
+.corporate { background: linear-gradient(135deg, #004080, #0073e6); }
+.dark { background-color: #222; }
+.colorful { background: linear-gradient(135deg, #ff5f6d, #ffc371); }
+.minimal { background-color: white; color: black; border: 2px solid black; }
+.college { background-image: url('college.jpg'); }
+.glass { background-image: url('college.jpg'); position: relative; }
+.glass::before { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.4); backdrop-filter: blur(8px); border-radius: 0.2in; }
+.glass * { position: relative; z-index: 1; }
+
+@media print {
+    body * { visibility: hidden; }
+    .card, .card * { visibility: visible; }
+    .card { position: absolute; left: 0; top: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<h2>Tall College Student ID Card Generator</h2>
+
+<form>
+<input type="text" id="school" placeholder="College Name" required><br>
+<input type="text" id="name" placeholder="Student Name" required><br>
+<input type="text" id="roll" placeholder="Roll Number" required><br>
+<input type="text" id="class" placeholder="Class" required><br>
+<input type="text" id="father" placeholder="Father Name" required><br>
+<input type="date" id="dob" required><br>
+<input type="text" id="blood" placeholder="Blood Group" required><br>
+<input type="text" id="aadhaar" placeholder="Aadhaar Number" required><br>
+<input type="text" id="address" placeholder="Address" required><br>
+
+<input type="file" id="photoInput" accept="image/*"><br>
+<input type="file" id="bgInput" accept="image/*"><br>
+
+<select id="theme">
+<option value="corporate">Corporate</option>
+<option value="dark">Dark</option>
+<option value="colorful">Colorful</option>
+<option value="minimal">Minimal</option>
+<option value="college">College Background</option>
+<option value="glass">Glass Effect</option>
+</select><br>
+
+<select id="fontStyle">
+<option value="Arial">Arial</option>
+<option value="Georgia">Georgia</option>
+<option value="Courier New">Courier New</option>
+<option value="Tahoma">Tahoma</option>
+<option value="Verdana">Verdana</option>
+</select><br>
+
+<input type="color" id="textColor" value="#ffffff"><br>
+
+<button type="button" onclick="generateCard()">Generate ID</button>
+</form>
+
+<div id="idCard" class="card corporate">
+<h2 id="displaySchool">College Name</h2>
+<img id="photo" src="https://via.placeholder.com/150">
+<p id="displayID"></p>
+<h3 id="displayName"></h3>
+<p id="displayRoll"></p>
+<p id="displayClass"></p>
+<p id="displayFather"></p>
+<p id="displayDOB"></p>
+<p id="displayBlood"></p>
+<p id="displayAadhaar"></p>
+<p id="displayAddress"></p>
+<div id="qrcode"></div>
+</div>
+
+<button class="action-btn" onclick="downloadCard()">Download ID</button>
+<button class="action-btn" onclick="window.print()">Print ID</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+function generateCard(){
+let schoolVal = document.getElementById("school").value.trim();
+let nameVal = document.getElementById("name").value.trim();
+let rollVal = document.getElementById("roll").value.trim();
+let classVal = document.getElementById("class").value.trim();
+let fatherVal = document.getElementById("father").value.trim();
+let dobVal = document.getElementById("dob").value;
+let bloodVal = document.getElementById("blood").value.trim();
+let aadhaarVal = document.getElementById("aadhaar").value.trim();
+let addressVal = document.getElementById("address").value.trim();
+let theme = document.getElementById("theme").value;
+let font = document.getElementById("fontStyle").value;
+let textColor = document.getElementById("textColor").value;
+
+if(!schoolVal || !nameVal || !rollVal || !classVal || !fatherVal || !dobVal || !bloodVal || !aadhaarVal || !addressVal){
+alert("Please fill all fields!");
+return;
+}
+
+let idNumber = "ID" + Math.floor(100000 + Math.random()*900000);
+let formattedDOB = new Date(dobVal).toLocaleDateString();
+
+displaySchool.innerText = schoolVal;
+displayName.innerText = nameVal;
+displayRoll.innerText = "Roll No: " + rollVal;
+displayClass.innerText = "Class: " + classVal;
+displayFather.innerText = "Father: " + fatherVal;
+displayDOB.innerText = "DOB: " + formattedDOB;
+displayBlood.innerText = "Blood Group: " + bloodVal;
+displayAadhaar.innerText = "Aadhaar: XXXX-XXXX-" + aadhaarVal.slice(-4);
+displayAddress.innerText = "Address: " + addressVal;
+displayID.innerText = "ID No: " + idNumber;
+
+let card = document.getElementById("idCard");
+card.className = "card " + theme;
+card.style.fontFamily = font;
+card.style.color = textColor;
+
+/* Photo Upload */
+let photoInput = document.getElementById("photoInput");
+if(photoInput.files[0]){
+let reader = new FileReader();
+reader.onload = e => document.getElementById("photo").src = e.target.result;
+reader.readAsDataURL(photoInput.files[0]);
+}
+
+/* Background Upload */
+let bgInput = document.getElementById("bgInput");
+if(bgInput.files[0]){
+let reader = new FileReader();
+reader.onload = e => card.style.backgroundImage = "url('" + e.target.result + "')";
+reader.readAsDataURL(bgInput.files[0]);
+}
+
+/* QR Code */
+document.getElementById("qrcode").innerHTML = "";
+new QRCode(document.getElementById("qrcode"), {
+    text:
+    "----- STUDENT ID DETAILS -----\n" +
+    "ID: " + idNumber + "\n" +
+    "Name: " + nameVal + "\n" +
+    "Roll: " + rollVal + "\n" +
+    "Class: " + classVal + "\n" +
+    "Father: " + fatherVal + "\n" +
+    "DOB: " + formattedDOB + "\n" +
+    "Blood: " + bloodVal + "\n" +
+    "College: " + schoolVal,
+    width: 80,
+    height: 80
+});
+}
+
+function downloadCard(){
+html2canvas(document.getElementById("idCard")).then(canvas=>{
+let link=document.createElement("a");
+link.download="Tall_College_ID_Card.png";
+link.href=canvas.toDataURL();
+link.click();
+});
+}
+</script>
+
+</body>
+</html>

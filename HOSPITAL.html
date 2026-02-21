@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hospital Management System</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f8fb;
+}
+
+header {
+    background: #0077b6;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+section {
+    padding: 20px;
+    margin: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form input, form button {
+    padding: 10px;
+    margin: 5px;
+}
+
+button {
+    background: #0077b6;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #023e8a;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 8px;
+    background: #e3f2fd;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.dashboard-box {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #0077b6;
+    color: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #0077b6;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏥 City Hospital Management System</h1>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#patients">Register Patient</a>
+        <a href="#doctors">Doctors</a>
+        <a href="#appointments">Appointments</a>
+        <a href="#dashboard">Dashboard</a>
+    </nav>
+</header>
+
+<section id="home">
+    <h2>Welcome to City Hospital</h2>
+    <p>Providing quality healthcare services with professional doctors and modern facilities.</p>
+</section>
+
+<section id="patients">
+    <h2>Patient Registration</h2>
+    <form id="patientForm">
+        <input type="text" id="pname" placeholder="Patient Name" required>
+        <input type="number" id="page" placeholder="Age" required>
+        <input type="text" id="pdisease" placeholder="Disease" required>
+        <button type="submit">Register</button>
+    </form>
+    <ul id="patientList"></ul>
+</section>
+
+<section id="doctors">
+    <h2>Our Doctors</h2>
+    <ul>
+        <li>Dr. Smith - Cardiologist</li>
+        <li>Dr. Johnson - Neurologist</li>
+        <li>Dr. Brown - Pediatrician</li>
+        <li>Dr. Williams - Orthopedic</li>
+    </ul>
+</section>
+
+<section id="appointments">
+    <h2>Book Appointment</h2>
+    <form id="appointmentForm">
+        <input type="text" id="aname" placeholder="Patient Name" required>
+        <input type="text" id="adoctor" placeholder="Doctor Name" required>
+        <input type="date" id="adate" required>
+        <button type="submit">Book Appointment</button>
+    </form>
+    <ul id="appointmentList"></ul>
+</section>
+
+<section id="dashboard">
+    <h2>Admin Dashboard</h2>
+    <div class="dashboard-box">
+        <div class="card">
+            <h3>Total Patients</h3>
+            <p id="totalPatients">0</p>
+        </div>
+        <div class="card">
+            <h3>Total Appointments</h3>
+            <p id="totalAppointments">0</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2025 City Hospital | All Rights Reserved</p>
+</footer>
+
+<script>
+let patients = [];
+let appointments = [];
+
+const patientForm = document.getElementById("patientForm");
+const patientList = document.getElementById("patientList");
+const totalPatients = document.getElementById("totalPatients");
+
+const appointmentForm = document.getElementById("appointmentForm");
+const appointmentList = document.getElementById("appointmentList");
+const totalAppointments = document.getElementById("totalAppointments");
+
+// Patient Registration
+patientForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("pname").value;
+    const age = document.getElementById("page").value;
+    const disease = document.getElementById("pdisease").value;
+
+    const patient = { name, age, disease };
+    patients.push(patient);
+
+    displayPatients();
+    patientForm.reset();
+});
+
+// Display Patients
+function displayPatients() {
+    patientList.innerHTML = "";
+    patients.forEach((patient, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${patient.name} | Age: ${patient.age} | Disease: ${patient.disease} 
+        <button onclick="deletePatient(${index})">Delete</button>`;
+        patientList.appendChild(li);
+    });
+    totalPatients.textContent = patients.length;
+}
+
+// Delete Patient
+function deletePatient(index) {
+    patients.splice(index, 1);
+    displayPatients();
+}
+
+// Appointment Booking
+appointmentForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("aname").value;
+    const doctor = document.getElementById("adoctor").value;
+    const date = document.getElementById("adate").value;
+
+    const appointment = { name, doctor, date };
+    appointments.push(appointment);
+
+    displayAppointments();
+    appointmentForm.reset();
+});
+
+// Display Appointments
+function displayAppointments() {
+    appointmentList.innerHTML = "";
+    appointments.forEach((appointment, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${appointment.name} with Dr. ${appointment.doctor} on ${appointment.date} 
+        <button onclick="deleteAppointment(${index})">Delete</button>`;
+        appointmentList.appendChild(li);
+    });
+    totalAppointments.textContent = appointments.length;
+}
+
+// Delete Appointment
+function deleteAppointment(index) {
+    appointments.splice(index, 1);
+    displayAppointments();
+}
+</script>
+
+</body>
+</html>
